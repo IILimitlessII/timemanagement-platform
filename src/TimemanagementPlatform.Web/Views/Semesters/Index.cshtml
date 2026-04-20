@@ -1,0 +1,184 @@
+@model IEnumerable<TimemanagementPlatform.Web.Models.Semester>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    th {
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+        color: white;
+    }
+
+    td {
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    h2 {
+        text-decoration: underline;
+        margin-top: 50px;
+    }
+
+    .grid-background {
+        background-color: white;
+    }
+
+    .row-background {
+        background-color: #0051c9;
+    }
+
+    .table tr:not(:first-child):hover {
+        font-weight: bold;
+        color: #0076c9;
+        background-color: #d6d6d6;
+    }
+
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+        width: 200px;
+    }
+
+    .table th:nth-child(2),
+    .table td:nth-child(2) {
+        width: 100px;
+    }
+
+    .table th:nth-child(3),
+    .table td:nth-child(3) {
+        width: 280px;
+    }
+
+    .table th:nth-child(4),
+    .table td:nth-child(4) {
+        width: 200px;
+    }
+
+    .button-blue {
+        background: #51d6ec;
+    }
+
+    .button-red {
+        background: #ff0000;
+    }
+
+    .button-yellow {
+        background: #ffd700;
+    }
+
+    .button-79 {
+        backface-visibility: hidden;
+        border: 0;
+        border-radius: .375rem;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Circular, Helvetica, sans-serif;
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: -.01em;
+        line-height: 1.3;
+        padding: 1rem 1.25rem;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transform: translateZ(0) scale(1);
+        transition: transform .2s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+        .button-79:disabled {
+            color: #787878;
+            cursor: auto;
+        }
+
+        .button-79:not(:disabled):hover {
+            transform: scale(1.05);
+        }
+
+            .button-79:not(:disabled):hover:active {
+                transform: scale(1.05) translateY(.125rem);
+            }
+
+        .button-79:focus {
+            outline: 0 solid transparent;
+        }
+
+            .button-79:focus:before {
+                border-width: .125rem;
+                content: "";
+                left: calc(-1 * .375rem);
+                pointer-events: none;
+                position: absolute;
+                top: calc(-1 * .375rem);
+                transition: border-radius;
+                user-select: none;
+            }
+
+            .button-79:focus:not(:focus-visible) {
+                outline: 0 solid transparent;
+            }
+
+        .button-79:not(:disabled):active {
+            transform: translateY(.125rem);
+        }
+
+    .button-width-60 {
+        width: 60px;
+        padding: 0.5rem 0.625rem;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+</style>
+
+<h1>Index</h1>
+<p>
+    <partial name="_ButtonCreate" />
+</p>
+<table class="table grid-background">
+    <thead>
+        <tr class="row-background">
+            <th>
+                Semester Name
+            </th>
+            <th>
+                Weeks
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                CRUD
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SemesterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SemesterWeeks)
+            </td>
+            <td>
+                @item.StartDate.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                    <button class="button-79 button-blue button-width-60" role="button" onclick="location.href='@Url.Action("Edit", new { id = @item.SemesterId })'">Edit</button>
+
+                    <button class="button-79 button-yellow button-width-60" role="button" onclick="location.href='@Url.Action("Details", new { id = @item.SemesterId })'">Details</button>
+
+                    <button class="button-79 button-red button-width-60" role="button" onclick="location.href='@Url.Action("Delete", new { id = @item.SemesterId })'">Delete</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

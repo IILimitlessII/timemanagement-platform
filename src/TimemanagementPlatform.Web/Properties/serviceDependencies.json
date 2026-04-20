@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "postgres1": {
+      "type": "postgresql",
+      "connectionId": "ConnectionStrings:DefaultConnection"
+    }
+  }
+}

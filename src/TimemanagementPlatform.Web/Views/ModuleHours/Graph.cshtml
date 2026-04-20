@@ -1,0 +1,114 @@
+﻿@model TimemanagementPlatform.Web.Models.ModuleHourGraphViewModel
+
+@{
+    ViewData["Title"] = "Graph";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Graph</h1>
+
+<div>
+    <label for="moduleDropdown">Select Module: </label>
+    <select id="moduleDropdown" asp-items="Model.ModuleSelectList"></select>
+</div>
+
+<canvas id="myChart" width="400" height="150"></canvas>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Get the canvas element
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            // Initialize an empty chart
+            var myChart;
+
+            // Function to fetch data for the selected module
+            function fetchData(moduleId) {
+                console.log('Fetching data for ModuleId:', moduleId);
+
+                $.get("/ModuleHours/GetModuleChartData", { moduleId: moduleId }, function (data) {
+                    console.log('Data received:', data);
+
+                    // Check if Dates array is defined and has elements
+                    if (data.dates && data.dates.length > 0) {
+                        // Destroy the existing chart if it exists
+                        if (myChart) {
+                            console.log('Destroying existing chart');
+                            myChart.destroy();
+                        }
+
+                        // Convert date strings to JavaScript Date objects
+                        var dateObjects = data.dates.map(dateString => new Date(dateString));
+
+                        // Create a new chart with updated data
+                        myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.dates,
+                                datasets: [{
+                                    label: 'Module Hours',
+                                    data: data.moduleHours,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 2,
+                                    fill: false
+                                }, {
+                                    label: 'Study Time',
+                                    data: Array(dateObjects.length).fill(data.selfStudyHours),
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2,
+                                    fill: false
+                                }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: "Hours Spent Studying"
+                                        },
+                                        beginAtZero: true,
+                                        max: 10,
+                                        stepSize: 0.5
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Semester Week'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        console.log('Chart created:', myChart);
+                    } else {
+                        console.error('Dates array is undefined or empty.');
+                    }
+                }).fail(function (error) {
+                    console.error('Error fetching data:', error);
+                });
+            }
+
+            // Handle change event of the Module dropdown on page load
+            $('#moduleDropdown').ready(function () {
+                var initialModuleId = $('#moduleDropdown').val();
+                fetchData(initialModuleId);
+            });
+
+            // Handle change event of the Module dropdown
+            $('#moduleDropdown').change(function () {
+                var moduleId = $(this).val(); // Get the selected ModuleId
+                fetchData(moduleId);
+            });
+        });
+    </script>
+
+}

@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Calendar";
+}
+
+<h2>Calendar</h2>
+
+<div id="calendar"></div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var eventsArray = JSON.parse('@Html.Raw(ViewBag.EventsJson)');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: eventsArray
+        });
+        calendar.render();
+        console.log(eventsArray);
+    });
+</script>

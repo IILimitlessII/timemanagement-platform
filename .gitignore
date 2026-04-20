@@ -1,0 +1,22 @@
+# Build output
+**/bin/
+**/obj/
+
+# IDE/editor files
+.vs/
+.idea/
+*.suo
+*.user
+*.rsuser
+*.sln.docstates
+
+# Environment/local overrides
+.env
+docker/.env
+
+# Logs
+*.log
+
+# Node assets
+**/node_modules/
+

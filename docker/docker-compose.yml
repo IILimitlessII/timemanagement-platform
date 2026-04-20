@@ -1,0 +1,49 @@
+# TimeManagement Platform — Postgres + ASP.NET Core (migration-first + seeded demo login)
+# App: http://localhost:8011
+name: timemanagement-platform
+
+services:
+  timemanagementdb:
+    image: postgres:16-alpine
+    container_name: timemanagementdb
+    ports:
+      - "${PG_PORT:-8012}:5432"
+    environment:
+      POSTGRES_DB: "${DB_NAME:-timemanagement}"
+      POSTGRES_USER: "${DB_USER:-timemanagement}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-Password@123}"
+    volumes:
+      - timemanagement_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-timemanagement} -d ${DB_NAME:-timemanagement}"]
+      interval: 5s
+      timeout: 5s
+      retries: 25
+      start_period: 45s
+
+  timemanagement-platform-web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: timemanagement-platform-web
+    depends_on:
+      timemanagementdb:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT:-8011}:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      DisableHttpsRedirect: "true"
+
+      ConnectionStrings__DefaultConnection: "Host=timemanagementdb;Port=5432;Database=${DB_NAME:-timemanagement};Username=${DB_USER:-timemanagement};Password=${DB_PASSWORD:-Password@123}"
+      Database__EnsureCreated: "false"
+      Database__AutoMigrate: "true"
+
+      Demo__SeedEnabled: "true"
+      DEMO_EMAIL: "${DEMO_EMAIL:-demo@timemanagement.local}"
+      DEMO_PASSWORD: "${DEMO_PASSWORD:-Password@123}"
+
+volumes:
+  timemanagement_pg:
+

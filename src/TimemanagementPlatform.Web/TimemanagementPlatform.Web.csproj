@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-TimemanagementPlatform.Web</UserSecretsId>
+    <RootNamespace>TimemanagementPlatform.Web</RootNamespace>
+    <AssemblyName>TimemanagementPlatform.Web</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\Identity\Pages\Account\Manage\Background.jpg" />
+    <None Remove="Views\Shared\Background.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimemanagementPlatform.Application\TimemanagementPlatform.Application.csproj" />
+    <ProjectReference Include="..\TimemanagementPlatform.Domain\TimemanagementPlatform.Domain.csproj" />
+    <ProjectReference Include="..\TimemanagementPlatform.Infrastructure\TimemanagementPlatform.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**\*.cs" />
+    <Compile Remove="Models\ApplicationUser.cs" />
+    <Compile Remove="Models\Semester.cs" />
+    <Compile Remove="Models\Module.cs" />
+    <Compile Remove="Models\ModuleHour.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Background2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

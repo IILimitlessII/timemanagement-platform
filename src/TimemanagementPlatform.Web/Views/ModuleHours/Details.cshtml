@@ -1,0 +1,43 @@
+@model TimemanagementPlatform.Web.Models.ModuleHour
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ModuleHour</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Hours Studied:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+        <dt class = "col-sm-2">
+            Study Date:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class = "col-sm-2">
+            Module Name:
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Module?.Name ?? "N/A")
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Semester):
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Semester?.SemesterName ?? "N/A")
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ModuleHourId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
