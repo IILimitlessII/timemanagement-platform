@@ -12,6 +12,6 @@
     <Compile Include="..\TimemanagementPlatform.Web\Models\ModuleHour.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.14" />
   </ItemGroup>
 </Project>
